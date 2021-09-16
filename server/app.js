@@ -5,6 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const cors = require('cors');
+require('dotenv').config();
+// this is also for port sharing
+// const port = 3000;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
