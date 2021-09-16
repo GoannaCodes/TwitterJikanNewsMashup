@@ -17,10 +17,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// change this to app.use(express.static('../client/build')); when both are done
+// this enables both react and express to run on same port
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+/* 
+app.listen(port, ()=>{
+  console.log(`Example app listening at http://localhost:${port`})
+})
+*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
