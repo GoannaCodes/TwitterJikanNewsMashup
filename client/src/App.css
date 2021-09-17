@@ -21,6 +21,10 @@ nav ul li h1{
   font-size: 35px;
 }
 
+nav ul li h2{
+  text-transform: uppercase;
+}
+
 nav ul li{
   display: flex;
   padding: 5px 30px;
