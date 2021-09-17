@@ -5,6 +5,9 @@ header{
   color: white;
 }
 
+.content{
+  text-align: center;
+}
 nav ul{
   list-style: none;
   display: flex;
