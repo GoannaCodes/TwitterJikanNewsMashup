@@ -20,7 +20,7 @@ router.get('/:year/:season', function(req, res, next) {
         .then(response=>{
           tweets.push({
             anime: resAnime[i].title,
-            tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str,]})
+            tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str]})
           })
           
         .catch(error=> console.log(error))
@@ -48,8 +48,8 @@ function createTwitterOptions(title){
     method: 'GET',
     url: 'https://api.twitter.com/1.1/search/tweets.json',
     params: {
-        //remove retweets from results
-        q: title,
+        //remove retweets and highlight/filter out keywords
+        q: title + " anime -RT -myanimelist -anilist",
         lang: 'en',
         result_type: 'mixed',
         // amount of tweets returned for each query

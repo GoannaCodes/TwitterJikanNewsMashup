@@ -10,7 +10,7 @@ export function Tweets(){
         const fetchTweets = async() =>{
             setLoadTweet(true);
 
-            const result = await axios("/tweets/2021/summer")
+            const result = await axios("http://localhost:3001/tweets/2021/summer")
 
             setTweets(result.data);
             setLoadTweet(false);
@@ -31,6 +31,7 @@ export function Tweets(){
                                     <TwitterTweetEmbed key={item.tweets[0]} id={item.tweets[0]} options={{width:700}}/>
                                     <TwitterTweetEmbed key={item.tweets[1]} id={item.tweets[1]} options={{width:700}}/>
                                     <TwitterTweetEmbed key={item.tweets[2]} id={item.tweets[2]} options={{width:700}}/>
+                                    <p></p>
                                 </div>
                             </div>
                         )
