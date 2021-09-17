@@ -16,7 +16,7 @@ router.get('/:year/:season', function(req, res, next) {
     return animeTitles;
   })
   .then(async(animeTitles)=>{
-    for(let i = 0; i < 10; i++){
+    for(let i = 0; i < 2; i++){
       q = animeTitles[i].englishTitle;
       url = `https://newsapi.org/v2/everything?q=${q}&pageSize=1&language=en&apiKey=${key}`;
       await axios.get(url)
@@ -39,7 +39,7 @@ module.exports = router;
 function getEnglishNames(rsp){
   let animeDetails = [];
 
-  for (let i = 0; i < 2; i++){
+  for (let i = 0; i < 10; i++){
     currentAnime = rsp[i];
     englishName = currentAnime.title_english;
 
