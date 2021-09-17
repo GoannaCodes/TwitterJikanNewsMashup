@@ -21,10 +21,6 @@ router.get('/:year/:season', function(req, res, next) {
       options = createTwitterOptions(resAnime[i].title);
       await axios.request(options)
       .then(response=>{
-        // 
-        if (resAnime.title_english === null){
-
-        }
         tweets.push({
           anime: resAnime[i].title,
           tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str]
@@ -39,9 +35,35 @@ router.get('/:year/:season', function(req, res, next) {
   
 });
 
-// could you just use map/filter to filter out just the titles?
-// probably
+// Extracts just the titles from the response data
 function getSeriesName(rsp){
+  let animeTitles = [];
 
+  for(let i = 0; i < 10; i++){
+    currentAnime=rsp[i];
+    animeTitles.push({
+      title: currentAnime.title
+    })
+  }
+  return animeTitles;
+}
+
+// Options for querying twitter API
+function createTwitterOptions(title){
+  const twitterOptions = {
+    method: "GET",
+    url: "https://api.twitter.com/1.1/search/tweets.json",
+    params: {
+      // remove retweets
+      q: title + '-RT -myanimelist -anilist',
+      lang: 'en',
+      result_type: 'recent',
+      // amount of tweets returned for each query
+      count: 3
+    },
+    headers: {
+      'Authorization': `Bearer ${key}`
+    }
+  }
 }
 module.exports = router;
