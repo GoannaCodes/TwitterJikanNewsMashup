@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import {Tweets} from "./pages/Tweets";
+import News from "./pages/News";
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home}/>
-          {/* <Route exact path="/news" component={News}/>  */}
+          <Route exact path="/news" component={News}/> 
           <Route exact path="/tweets" component={Tweets}/>
         </Switch>
       </Router>

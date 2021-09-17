@@ -3,11 +3,13 @@ header{
   justify-content: space-between;
   background-color: #0077b6;
   color: white;
+  line-height: 15px;
 }
 
 .content{
   text-align: center;
 }
+
 nav ul{
   list-style: none;
   display: flex;
@@ -22,7 +24,7 @@ nav ul li h1{
 nav ul li{
   display: flex;
   padding: 5px 30px;
-  line-height: 15px;
+  
 }
 
 nav ul li a{
@@ -30,4 +32,9 @@ nav ul li a{
   text-decoration: none;
   padding-bottom: 0;
   vertical-align: middle;
+}
+
+nav ul li a:hover{
+  text-decoration: underline;
+  color: #fff;
 }
