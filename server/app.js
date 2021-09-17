@@ -9,7 +9,7 @@ require('dotenv').config();
 // this is also for port sharing
 // const port = 3000;
 
-var indexRouter = require('./routes/index');
+var newsRouter = require('./routes/news');
 var tweetRouter = require('./routes/tweets');
 
 var app = express();
@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/', indexRouter);
+app.use('/news', newsRouter);
 app.use('/tweets', tweetRouter);
 
 /* 
