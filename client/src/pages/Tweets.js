@@ -22,17 +22,17 @@ export function Tweets(){
             {loadTweet ? (
                 <h1 className="content">Loading tweets...</h1>
             ) : (
-                <div className="content">
+                <div>
                     {tweets.map((item)=>{
                         return(
-                            <div>
+                            <div className="content">
                                 <h2 key={item.anime}>{item.anime}</h2>
-                                <div style={{display: "flex", justifyContent: "center"}}>
+                                <div style={{display: "flex", justifyContent: "center", gap:"15px"}}>
                                     <TwitterTweetEmbed key={item.tweets[0]} id={item.tweets[0]} options={{width:700}}/>
                                     <TwitterTweetEmbed key={item.tweets[1]} id={item.tweets[1]} options={{width:700}}/>
                                     <TwitterTweetEmbed key={item.tweets[2]} id={item.tweets[2]} options={{width:700}}/>
-                                    <p></p>
                                 </div>
+                                <hr />
                             </div>
                         )
                     })}
