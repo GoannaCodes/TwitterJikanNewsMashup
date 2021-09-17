@@ -12,7 +12,7 @@ export default function News(){
         const fetchArticles = async()=>{
             setLoadArticles(true);
 
-            const result = await axios("http://localhost:3001/news/2021/summer");
+            const result = await axios("/news/2021/summer");
 
             setAnimeArticles(result.data);
             setLoadArticles(false);
