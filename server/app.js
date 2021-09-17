@@ -6,8 +6,8 @@ var logger = require('morgan');
 
 const cors = require('cors');
 require('dotenv').config();
-// this is also for port sharing
-// const port = 3000;
+
+const port = 3000;
 
 var newsRouter = require('./routes/news');
 var tweetRouter = require('./routes/tweets');
@@ -22,19 +22,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// change this to app.use(express.static('../client/build')); when both are done
-// this enables both react and express to run on same port
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static('../client/build'));
 app.use(cors());
 
 app.use('/news', newsRouter);
 app.use('/tweets', tweetRouter);
 
-/* 
+ 
 app.listen(port, ()=>{
-  console.log(`Example app listening at http://localhost:${port`})
+  console.log(`Example app listening at http://localhost:${port}`)
 })
-*/
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
