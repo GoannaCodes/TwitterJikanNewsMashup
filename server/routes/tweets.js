@@ -1,46 +1,45 @@
 var express = require('express');
 var router = express.Router();
-const seasonList = require('./helper/seasonList');
+const data = require('./helper/seasonList');
 const axios = require('axios');
 const key = process.env.TWITTER_BEARER;
 
-/* GET users listing. */
+/* GET tweets talking about seasonal shows. */
 router.get('/:year/:season', function(req, res, next) {
   let season = req.params.season;
-  let year = req.params.year;
-  let tweets = []
+    let year = req.params.year;    
+    let tweets = []
 
-  seasonList.getAnimeData(year, season)
-  .then(data=>{
-    // extract series titles
-    animeNames = getSeriesName(data);
-    return animeNames;
-  })
-  .then(async(resAnime)=>{
-    for (let i = 0; i < 10; i++){
-      options = createTwitterOptions(resAnime[i].title);
-      await axios.request(options)
-      .then(response=>{
-        tweets.push({
-          anime: resAnime[i].title,
-          tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str]
-        })
+    data.getAnimeData(year, season).then(data=>{
+        //extract just the series titles 
+        animeNames = getSeriesName(data);
         
-      })
-      .catch(error=> console.log(error));
-    }
-    res.json(tweets);
-  })
-  .catch(error=> res.json(error));
-  
-});
+        return animeNames;
+    })
+    .then(async (resAnime)=>{
+        //send this off to the twitter search API
+        for (let i = 0; i < 10; i++){
+            options = createTwitterOptions(resAnime[i].title);
+            await axios.request(options)
+            .then(response=>{
+                tweets.push({
+                    anime: resAnime[i].title,
+                    tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str]})
+            })
+            .catch(error => console.log(error));
+        }
+        res.json(tweets);
 
-// Extracts just the titles from the response data
+    })
+    .catch((error)=>{
+        res.json(error);
+    })
+})
+
 function getSeriesName(rsp){
   let animeTitles = [];
-
-  for(let i = 0; i < 10; i++){
-    currentAnime=rsp[i];
+  for (let i = 0; i < 10; i++){
+    currentAnime = rsp[i];
     animeTitles.push({
       title: currentAnime.title
     })
@@ -48,22 +47,22 @@ function getSeriesName(rsp){
   return animeTitles;
 }
 
-// Options for querying twitter API
 function createTwitterOptions(title){
   const twitterOptions = {
-    method: "GET",
-    url: "https://api.twitter.com/1.1/search/tweets.json",
+    method: 'GET',
+    url: 'https://api.twitter.com/1.1/search/tweets.json',
     params: {
-      // remove retweets
-      q: title + '-RT -myanimelist -anilist',
-      lang: 'en',
-      result_type: 'recent',
-      // amount of tweets returned for each query
-      count: 3
+        //remove retweets from results
+        q: title + ' -RT -myanimelist -anilist',
+        lang: 'en',
+        result_type: 'mixed',
+        // amount of tweets returned for each query
+        count: 3
     },
     headers: {
-      'Authorization': `Bearer ${key}`
+        'Authorization': `Bearer ${key}`
     }
   }
+  return twitterOptions;
 }
 module.exports = router;
