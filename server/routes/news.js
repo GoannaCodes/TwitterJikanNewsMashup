@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const data = require('./helper/seasonList');
 const axios = require('axios');
-const { urlencoded } = require('express');
 const key = process.env.NEWS_KEY;
 
 /* GET news articles */
@@ -16,7 +15,7 @@ router.get('/:year/:season', function(req, res, next) {
     return animeTitles;
   })
   .then(async(animeTitles)=>{
-    for(let i = 0; i < 2; i++){
+    for(let i = 0; i < 10; i++){
       q = animeTitles[i].englishTitle;
       url = `https://newsapi.org/v2/everything?q=${q}&pageSize=1&language=en&apiKey=${key}`;
       await axios.get(url)
@@ -42,12 +41,13 @@ function getEnglishNames(rsp){
   for (let i = 0; i < 10; i++){
     currentAnime = rsp[i];
     englishName = currentAnime.title_english;
+    
 
     //series that do not have an english name logged, try to use synonyms 
     if (englishName == null){
       englishName = currentAnime.title_synonyms[0].replace('-', ' ');
     }
-
+    
     animeDetails.push({
       title: currentAnime.title,
       englishTitle: englishName
