@@ -12,7 +12,8 @@ export default function News(){
         const fetchArticles = async()=>{
             setLoadArticles(true);
 
-            const result = await axios("/news/2021/summer");
+            const result = await axios('/news/2021/summer');
+            //const result = await axios("http://localhost:3001/news/2021/summer");
 
             setAnimeArticles(result.data);
             setLoadArticles(false);
@@ -31,7 +32,8 @@ export default function News(){
                 <h1>Loading articles...</h1>
             ) : (
                 <Container>
-                    <List divided style={{maxWidth: 900, margin: "0 auto"}}>   
+                    <List divided style={{maxWidth: 900, margin: "0 auto"}}>  
+                         
                         {filteredArticles.map((item, i)=>{
                             return(
                                 <Article item={item} key={item.anime + i} />
