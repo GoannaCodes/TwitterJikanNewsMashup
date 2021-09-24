@@ -6,6 +6,7 @@ import TwitterTweetEmbed from "react-tweet-embed";
 export function Tweets(){
     const [tweets, setTweets] = useState([]);
     const [loadTweet, setLoadTweet] = useState(false);
+    // fetch tweet data from server
     useEffect(()=>{
         const fetchTweets = async() =>{
             setLoadTweet(true);
@@ -29,6 +30,7 @@ export function Tweets(){
                             <div className="content">
                                 <h2 key={item.anime}>{item.anime}</h2>
                                 <div style={{display: "flex", justifyContent: "center", gap:"15px"}}>
+                                    {/* uses tweet ids to generate embedded tweets */}
                                     <TwitterTweetEmbed key={item.tweets[0]} id={item.tweets[0]} options={{width:700}}/>
                                     <TwitterTweetEmbed key={item.tweets[1]} id={item.tweets[1]} options={{width:700}}/>
                                     <TwitterTweetEmbed key={item.tweets[2]} id={item.tweets[2]} options={{width:700}}/>

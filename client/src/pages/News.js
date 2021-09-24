@@ -8,6 +8,7 @@ export default function News(){
     const [loadArticles, setLoadArticles] = useState(true);
     const [animeArticles, setAnimeArticles] = useState([]);
 
+    // fetch articles data from server
     useEffect(()=>{
         const fetchArticles = async()=>{
             setLoadArticles(true);
@@ -28,14 +29,17 @@ export default function News(){
     
     return(
         <div className="content">
+            {/* if data is still being retrieved, render this */}
             {loadArticles ? (
                 <h1>Loading articles...</h1>
             ) : (
+                // Render this when loadArticles = false
                 <Container>
                     <List divided style={{maxWidth: 900, margin: "0 auto"}}>  
-                         
+                        {/* map through data */}
                         {filteredArticles.map((item, i)=>{
                             return(
+                                // format data as articles
                                 <Article item={item} key={item.anime + i} />
                             )
                         })}

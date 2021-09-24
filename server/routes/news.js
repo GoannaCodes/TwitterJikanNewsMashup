@@ -10,16 +10,20 @@ router.get('/:year/:season', function(req, res, next) {
   let year = req.params.year;
   let articles = [];
 
+  // get the list of seasonal anime entries
   data.getAnimeData(year, season).then(data=>{
+    // extract just the westernised names of the shows
     animeTitles = getEnglishNames(data);
     return animeTitles;
   })
   .then(async(animeTitles)=>{
     for(let i = 0; i < 10; i++){
+      // query to send to NEWS API
       q = animeTitles[i].englishTitle + " anime";
       url = `https://newsapi.org/v2/everything?q=${q}&pageSize=1&language=en&apiKey=${key}`;
       await axios.get(url)
       .then(response=>{
+        // store article data and anime used for query
         articles.push({
           anime: animeTitles[i].englishTitle,
           article: response.data.articles
@@ -43,7 +47,8 @@ function getEnglishNames(rsp){
     englishName = currentAnime.title_english;
     
 
-    //series that do not have an english name logged, try to use synonyms 
+    //series that do not have an english name logged, try to use synonyms
+    // and replace any '-' characters with empty space 
     if (englishName == null){
       englishName = currentAnime.title_synonyms[0].replace('-', ' ');
     }

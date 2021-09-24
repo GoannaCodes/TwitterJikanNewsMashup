@@ -10,17 +10,21 @@ router.get('/:year/:season', function(req, res, next) {
     let year = req.params.year;    
     let tweets = []
 
+    // get the list of seasonal anime entries 
     data.getAnimeData(year, season).then(data=>{
+      // retrieve the titles of the shows (localised titles of shows)
       animeNames = getSeriesName(data);
       return animeNames;
     }).then(async(resAnime)=>{
       for(let i = 0; i < resAnime.length; i++){
+        // changes query per anime title
         options = createTwitterOptions(resAnime[i].title);
+        // request to twitter's standard search API
         await axios.request(options)
         .then(response=>{
           tweets.push({
             anime: resAnime[i].title,
-            // tweets: response.data.statuses})
+            // tweets: response.data.statuses}) <- this was to see the full response
             tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str]})
           })
           
