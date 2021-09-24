@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const data = require('./helper/seasonList');
+const data = require('./helper/seasonData');
 const axios = require('axios');
 const key = process.env.NEWS_KEY;
 
@@ -16,7 +16,7 @@ router.get('/:year/:season', function(req, res, next) {
   })
   .then(async(animeTitles)=>{
     for(let i = 0; i < 10; i++){
-      q = animeTitles[i].englishTitle;
+      q = animeTitles[i].englishTitle + " anime";
       url = `https://newsapi.org/v2/everything?q=${q}&pageSize=1&language=en&apiKey=${key}`;
       await axios.get(url)
       .then(response=>{
