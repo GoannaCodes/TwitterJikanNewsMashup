@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const data = require('./helper/seasonList');
+const data = require('./helper/seasonData');
 const axios = require('axios');
 const key = process.env.TWITTER_BEARER;
 
@@ -14,12 +14,13 @@ router.get('/:year/:season', function(req, res, next) {
       animeNames = getSeriesName(data);
       return animeNames;
     }).then(async(resAnime)=>{
-      for(let i = 0; i < 10; i++){
+      for(let i = 0; i < resAnime.length; i++){
         options = createTwitterOptions(resAnime[i].title);
         await axios.request(options)
         .then(response=>{
           tweets.push({
             anime: resAnime[i].title,
+            // tweets: response.data.statuses})
             tweets: [response.data.statuses[0].id_str, response.data.statuses[1].id_str, response.data.statuses[2].id_str]})
           })
           
@@ -34,7 +35,7 @@ router.get('/:year/:season', function(req, res, next) {
 
 function getSeriesName(rsp){
   let animeTitles = [];
-  for (let i = 0; i < 10; i++){
+  for (let i = 0; i < rsp.length; i++){
     currentAnime = rsp[i];
     animeTitles.push({
       title: currentAnime.title
@@ -49,7 +50,7 @@ function createTwitterOptions(title){
     url: 'https://api.twitter.com/1.1/search/tweets.json',
     params: {
         //remove retweets and highlight/filter out keywords
-        q: title + " anime -RT -myanimelist -anilist",
+        q: title + " anime -RT -kitsu -anilist -myanimelist",
         lang: 'en',
         result_type: 'mixed',
         // amount of tweets returned for each query
